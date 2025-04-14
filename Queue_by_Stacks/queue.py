@@ -3,44 +3,47 @@ Implement Queue using Stacks
 """
 
 
-class MyQueue(object):
-
+class Stack:
     def __init__(self):
-        self.stack_in = []
-        self.stack_out = []
+        self.data = []
 
     def push(self, x):
-        """
-        :type x: int
-        :rtype: None
-        """
-        self.stack_in.append(x)
+        self.data.append(x)
 
     def pop(self):
-        """
-        :rtype: int
-        """
-        if not self.stack_out:
+        return self.data.pop()
+
+    def peek(self):
+        return self.data[-1]
+
+    def empty(self):
+        return len(self.data) == 0
+
+
+class MyQueue:
+    def __init__(self):
+        self.stack_in = Stack()
+        self.stack_out = Stack()
+
+    def push(self, x):
+        self.stack_in.push(x)
+
+    def pop(self):
+        if self.stack_out.empty():
             self._transfer()
         return self.stack_out.pop()
 
     def peek(self):
-        """
-        :rtype: int
-        """
-        if not self.stack_out:
+        if self.stack_out.empty():
             self._transfer()
-        return self.stack_out[-1]
+        return self.stack_out.peek()
 
     def empty(self):
-        """
-        :rtype: bool
-        """
-        return not self.stack_in and not self.stack_out
+        return self.stack_in.empty() and self.stack_out.empty()
 
     def _transfer(self):
-        while self.stack_in:
-            self.stack_out.append(self.stack_in.pop())
+        while not self.stack_in.empty():
+            self.stack_out.push(self.stack_in.pop())
 
 
 myQueue = MyQueue()
